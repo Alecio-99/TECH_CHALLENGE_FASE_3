@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package agendamento;
+
+option java_multiple_files = true;
+option java_package = "com.tech.fase3.challenge.agendamento.grpc";
+option java_outer_classname = "AgendamentoProto";
+
+import "google/protobuf/timestamp.proto";
+
+message Consulta {
+  int64 id = 1;
+  int64 medico_id = 2;
+  int64 paciente_id = 3;
+  int64 enfermeiro_id = 4;
+  google.protobuf.Timestamp data_hora = 5;
+  string status = 6;
+  string observacoes = 7;
+}
+
+message CriarConsultaRequest {
+  Consulta consulta = 1;
+}
+
+message CancelarConsultaRequest {
+  int64 consulta_id = 1;
+  string motivo = 2;
+}
+
+message BuscarConsultasPorPacienteRequest {
+  int64 paciente_id = 1;
+}
+
+message ConsultaResponse {
+  Consulta consulta = 1;
+}
+
+service AgendamentoService {
+
+  rpc CriarConsulta (CriarConsultaRequest)
+      returns (ConsultaResponse);
+
+  rpc CancelarConsulta (CancelarConsultaRequest)
+      returns (ConsultaResponse);
+
+  rpc BuscarConsultasPorPaciente (BuscarConsultasPorPacienteRequest)
+      returns (stream Consulta);
+}

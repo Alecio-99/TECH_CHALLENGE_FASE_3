@@ -63,3 +63,9 @@ message BuscarUsuarioPorIdRequest {
 message UsuarioResponse {
   Usuario usuario = 1;
 }
+
+service UsuarioService {
+
+  rpc BuscarUsuarioPorId (BuscarUsuarioPorIdRequest)
+      returns (UsuarioResponse);
+}
