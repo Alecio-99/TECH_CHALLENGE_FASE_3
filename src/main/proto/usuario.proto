@@ -66,6 +66,12 @@ message UsuarioResponse {
 
 service UsuarioService {
 
+  rpc CriarMedico (Medico) returns (Medico);
+
+  rpc CriarEnfermeiro (Enfermeiro) returns (Enfermeiro);
+
+  rpc CriarPaciente (Paciente) returns (Paciente);
+
   rpc BuscarUsuarioPorId (BuscarUsuarioPorIdRequest)
       returns (UsuarioResponse);
 }
