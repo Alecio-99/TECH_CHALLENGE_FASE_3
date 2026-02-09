@@ -1,4 +1,4 @@
-package main.java.com.tech.fase3.agendamento.security;
+package com.tech.fase3.agendamento.security;
 
 public enum Role {
     MEDICO,

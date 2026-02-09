@@ -1,4 +1,4 @@
-package main.java.com.tech.fase3.agendamento.dto;
+package com.tech.fase3.agendamento.dto;
 
 public record ConsultaDTO(
         Long id,

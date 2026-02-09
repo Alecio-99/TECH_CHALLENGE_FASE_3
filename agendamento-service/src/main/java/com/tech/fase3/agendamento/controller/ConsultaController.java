@@ -1,45 +1,36 @@
-package main.java.com.tech.fase3.agendamento.controller;
+package com.tech.fase3.agendamento.controller;
 
-
-import main.java.com.tech.fase3.agendamento.services.ConsultaProducer;
+import com.tech.fase3.agendamento.domain.StatusConsulta;
+import com.tech.fase3.agendamento.dto.ConsultaDTO;
+import com.tech.fase3.agendamento.service.ConsultaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/consultas")
 public class ConsultaController {
 
-    private final ConsultaProducer consultaProducer;
+    private final ConsultaService service;
 
-    public ConsultaController(ConsultaProducer consultaProducer) {
-        this.consultaProducer = consultaProducer;
+    public ConsultaController(ConsultaService service) {
+        this.service = service;
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
-    public String criarConsulta(Authentication auth) {
-        consultaProducer.enviarConsultaCriada(auth.getName());
-        return "Consulta criada";
+    @PreAuthorize("hasAnyRole('MEDICO','ENFERMEIRO')")
+    public ResponseEntity<Void> criar(@RequestBody ConsultaDTO dto) {
+        service.criar(dto);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('MEDICO')")
-    public String editarConsulta(@PathVariable String id) {
-        consultaProducer.enviarConsultaEditada(id);
-        return "Consulta " + id + " editada";
+    public ResponseEntity<Void> editar(
+            @PathVariable Long id,
+            @RequestParam StatusConsulta status
+    ) {
+        service.editar(id, status);
+        return ResponseEntity.ok().build();
     }
-
-    @GetMapping
-    @PreAuthorize("hasAnyRole('MEDICO', 'ENFERMEIRO')")
-    public String listarConsultas() {
-        return "Listando histórico de consultas";
-    }
-
-    @GetMapping("/meu")
-    @PreAuthorize("hasRole('PACIENTE')")
-    public String minhasConsultas(Authentication auth) {
-        return "Consultas do paciente " + auth.getName();
-    }
-
 }

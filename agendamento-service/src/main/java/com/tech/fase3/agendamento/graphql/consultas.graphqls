@@ -10,6 +10,6 @@ type Consulta {
 
 type Query {
   consultas: [Consulta]
-  consultasPorPaciente(pacienteId: ID): [Consulta]
-  consultasFuturas(pacienteId: ID!): [Consulta]
+  consultasPorPaciente: [Consulta]
+  consultasFuturas: [Consulta]
 }
