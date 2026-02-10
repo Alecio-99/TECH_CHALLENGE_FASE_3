@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: agendamento-service
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/agendamento?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+server:
+  port: 8080
