@@ -1,107 +1,106 @@
 # Tech Challenge – Fase 3
-**Pós-Tech – FIAP**
-
-## 📌 Descrição do Projeto
-
-Este projeto foi desenvolvido como parte do **Tech Challenge – Fase 3**, com o objetivo de criar um backend **modular, seguro e escalável**, voltado para um **ambiente hospitalar**, contemplando:
-
-- Agendamento de consultas
-- Controle de acesso por perfil de usuário
-- Consulta de histórico médico via GraphQL
-- Comunicação assíncrona entre serviços utilizando RabbitMQ
-
-A aplicação foi estruturada seguindo boas práticas de arquitetura, separação de responsabilidades e segurança.
 
 ---
 
-## 🏗️ Arquitetura da Solução
+## Pós-Tech – FIAP
 
-O sistema foi implementado utilizando **Maven Multi-Module**, simulando uma arquitetura de microserviços.
+---
+### Descrição do Projeto
 
-### 📦 Módulos do Projeto
+Este projeto foi desenvolvido como parte do Tech Challenge – Fase 3, com o objetivo de criar um backend modular, seguro e escalável, voltado para um ambiente hospitalar, contemplando:
+
+- Agendamento de consultas 
+- Controle de acesso por perfil de usuário 
+- Consulta de histórico médico via REST e GraphQL 
+- Comunicação assíncrona entre serviços utilizando RabbitMQ 
+- Persistência de dados em banco relacional (MySQL)
+
+A aplicação foi estruturada seguindo boas práticas de arquitetura, separação de responsabilidades, segurança e comunicação entre serviços.
+
+---
+
+### Arquitetura da Solução
+
+O sistema foi implementado utilizando Maven Multi-Module, simulando uma arquitetura de microserviços containerizados com Docker.
+
+---
+
+#### Estrutura do Projeto
+
 ```txt
 TECH_CHALLENGE_FASE_3
 │
 ├── agendamento-service
-│ └── Serviço responsável pelo agendamento e consulta de histórico
+│ └── Serviço responsável pelo agendamento e histórico de consultas
 │
 ├── notificacao-service
 │ └── Serviço responsável pelo envio de notificações
 │
+├── docker-compose.yml
+├── deploy.sh
 └── pom.xml (parent)
 ```
+---
 
-### 🔹 agendamento-service
+#### agendamento-service
+
 Responsável por:
-- Autenticação e autorização
-- Agendamento de consultas
-- Edição de consultas
-- Consulta de histórico via REST e GraphQL
+- Autenticação e autorização (Spring Security)
+- Agendamento de consultas 
+- Edição de consultas 
+- Consulta de histórico médico 
+- Exposição de APIs REST e GraphQL 
+- Persistência de dados em MySQL 
 - Publicação de eventos no RabbitMQ
 
-### 🔹 notificacao-service
+---
+
+#### notificacao-service
+
 Responsável por:
-- Consumo de mensagens do RabbitMQ
-- Processamento de notificações (simulado via log)
+- Consumo de mensagens do RabbitMQ 
+- Processamento de notificações de consultas 
+- Simulação do envio de lembretes (via log)
 
 ---
 
-## 🔐 Segurança (Spring Security)
+#### Segurança (Spring Security)
 
-A aplicação utiliza **Spring Security com autenticação básica**.
+A aplicação utiliza Spring Security com autenticação básica (HTTP Basic), onde cada perfil de Usuário possui permissoes especificas:
+- MÉDICO pode > Criar, editar e visualizar consultas 
+- ENFERMEIRO pode > Criar consultas e visualizar histórico 
+- PACIENTE pode > Visualizar apenas suas próprias consultas
 
-### Perfis de Usuário
-
-| Perfil | Permissões |
-|------|-----------|
-| **MÉDICO** | Visualizar e editar histórico de consultas |
-| **ENFERMEIRO** | Registrar consultas e visualizar histórico |
-| **PACIENTE** | Visualizar apenas suas próprias consultas |
-
-A autorização é feita utilizando `@PreAuthorize` nos endpoints REST e GraphQL.
+A autorização é aplicada utilizando @PreAuthorize nos endpoints REST e GraphQL.
 
 ---
 
-## 🌐 API REST – Agendamento de Consultas
+#### API REST – /consultas
+- Criar consulta
+- Atualizar Consulta
+- Visualizar Todas as Consultas
+- Vizualizar Consultar por Paciente
 
-### Criar consulta
+> POST /consultas - Acesso permitido a: Médico, Enfermeiro
 
-POST /consultas
+> PUT /consultas/{id} - Acesso permitido a: Médico
 
-**Acesso:** Médico, Enfermeiro
+> GET /consultas - Acesso permitido a: Médico, Enfermeiro
 
-### Editar consulta
-
-PUT /consultas/{id}
-
-**Acesso:** Médico
-
-### Listar histórico geral
-
-GET /consultas
-
-**Acesso:** Médico, Enfermeiro
-
-### Listar consultas do paciente logado
-
-GET /consultas/meu
-
-**Acesso:** Paciente
+> GET /consultas/meu - Acesso permitido a: Paciente
 
 ---
 
-## 🧩 GraphQL – Histórico de Consultas
+#### GraphQL – Histórico de Consultas
 
 O GraphQL foi implementado para permitir consultas flexíveis ao histórico médico.
 
-### Endpoint
+**Endpoint:**
+> POST /graphql
 
-POST /graphql
+**Queries disponíveis:**
 
-
-### Queries disponíveis
-
-#### Histórico completo (Médico / Enfermeiro)
+Histórico completo (Médico / Enfermeiro)
 ```graphql
 query {
     consultas {
@@ -114,7 +113,7 @@ query {
 }
 ```
 
-####  Histórico do paciente logado
+**Histórico do paciente logado:**
 ```graphql
 query {
     consultasPorPaciente {
@@ -125,7 +124,7 @@ query {
 }
 ```
 
-#### Consultas futuras
+**Consultas futuras:**
 ```graphql
 query {
     consultasFuturas {
@@ -138,91 +137,107 @@ query {
 
 ---
 
-#### 📨 Comunicação Assíncrona – RabbitMQ
+#### Comunicação Assíncrona – RabbitMQ
 
 A comunicação entre os serviços é feita de forma assíncrona utilizando RabbitMQ.
 
-Fluxo de Mensagens:
+**Fluxo de Mensagens:**
 
 1. O agendamento-service publica um evento quando uma consulta é criada ou editada. 
-2. O notificacao-service consome a mensagem. 
+2. O notificacao-service consome a mensagem da fila. 
 3. A notificação é processada (simulada via log).
 
-Essa abordagem garante:
+**Benefícios da abordagem:**
 
-1. Desacoplamento entre serviços 
-2. Escalabilidade 
-3. Comunicação assíncrona
+- Desacoplamento entre serviços 
+- Maior escalabilidade 
+- Processamento assíncrono
 
 ---
 
-#### 🛠️ Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
 - Java 17 
-- Spring Boot 
+- Spring Boot 3 
 - Spring Security 
 - Spring GraphQL 
+- Spring Data JPA 
 - Spring AMQP (RabbitMQ)
+- MySQL 8 
 - Maven Multi-Module 
-- H2 Database 
-- Docker (para RabbitMQ) --Pendente-- 
-- GraphQL 
-- REST APIs
-
-#### Como Executar o Projeto
-
-Pré-requisitos 
-- Java 17+ 
-- Maven 
-- Docker (para RabbitMQ)
-
-Subir RabbitMQ
-```bash
-docker run -d --name rabbitmq \
--p 5672:5672 \
--p 15672:15672 \
-rabbitmq:3-management
-```
-Build do projeto
-```bash
-mvn clean install
-```
-Executar os serviços
-
-- Agendamento
-```bash
-cd agendamento-service
-mvn spring-boot:run
-```
-
-- Notificação
-```bash
-cd notificacao-service
-mvn spring-boot:run
-```
----
-#### 🧪 Testes
-
-- Collections do Postman podem ser utilizadas para testar os endpoints REST. 
-- Queries GraphQL podem ser testadas via Postman ou GraphQL Playground. 
-- Logs do notificacao-service demonstram o recebimento de mensagens via RabbitMQ.
+- Docker & Docker Compose 
+- REST APIs 
+- GraphQL
 
 ---
-#### 📄 Considerações Finais
+
+### Como Executar o Projeto (Docker)
+
+**Pré-requisitos:**
+
+- Docker 
+- Docker Compose
+
+**Executar a aplicação:**
+
+Na raiz do projeto, execute:
+
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+**O script irá:**
+
+- Buildar os projetos com Maven 
+- Criar as imagens Docker 
+- Subir MySQL, RabbitMQ e os serviços 
+- Inicializar toda a aplicação
+
+**Serviços disponíveis:**
+
+> Agendamento Service	http://localhost:8080
+
+> Notificação Service	http://localhost:8081
+
+> RabbitMQ Management	http://localhost:15672
+
+**Credenciais RabbitMQ:**
+
+> Usuario: guest
+
+> Senha: guest
+
+---
+
+### Testes
+
+- Endpoints REST testados via Postman
+- Queries GraphQL testadas via Postman 
+- Logs do notificacao-service demonstram o consumo das mensagens do RabbitMQ 
+- Interface web do RabbitMQ permite visualizar filas e mensagens
+
+---
+
+### Considerações Finais
 
 Este projeto demonstra a aplicação prática de:
 
 - Segurança em aplicações Java 
-- Arquitetura modular 
-- Comunicação assíncrona 
-- GraphQL para consultas flexíveis 
+- Arquitetura modular baseada em microserviços 
+- Comunicação assíncrona com mensageria 
+- Uso de GraphQL para consultas flexíveis 
+- Containerização com Docker 
 - Boas práticas com Spring Boot
 
 Atendendo integralmente aos requisitos propostos no Tech Challenge – Fase 3.
 
 ---
 
-#### Autores:
-- Giovana Leite Scalabrini
-- Alecio 
+### Autores
 
+Giovana Leite Scalabrini
+
+Alecio
+
+---
