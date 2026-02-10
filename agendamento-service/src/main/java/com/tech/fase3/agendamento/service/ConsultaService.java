@@ -50,8 +50,10 @@ public class ConsultaService {
     }
 
     public List<Consulta> listarFuturas(Long pacienteId) {
-        return repository.findByPacienteIdAndDataHoraAfter(
-                pacienteId, LocalDateTime.now()
+        return repository.findByPacienteIdAndStatusAndDataHoraAfter(
+                pacienteId,
+                StatusConsulta.AGENDADA,
+                LocalDateTime.now()
         );
     }
 }
