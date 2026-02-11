@@ -93,45 +93,62 @@ A autorização é aplicada utilizando @PreAuthorize nos endpoints REST e GraphQ
 
 #### GraphQL – Histórico de Consultas
 
-O GraphQL foi implementado para permitir consultas flexíveis ao histórico médico.
+O GraphQL foi implementado para permitir **consultas flexíveis** ao histórico médico: listar todos os atendimentos de um paciente ou apenas as consultas futuras (agendadas).
 
-**Endpoint:**
-> POST /graphql
+**Endpoint:** `POST http://localhost:8080/graphql`  
+**Autenticação:** Basic Auth (usuário/senha: medico/123, enfermeiro/123 ou paciente/123)  
+**Headers:** `Content-Type: application/json`
 
 **Queries disponíveis:**
 
-Histórico completo (Médico / Enfermeiro)
+**1. Todas as consultas** (apenas Médico / Enfermeiro)
 ```graphql
 query {
-    consultas {
-        id
-        medicoId
-        pacienteId
-        dataHora
-        status
-    }
+  consultas {
+    id
+    medicoId
+    pacienteId
+    dataHora
+    status
+    observacoes
+  }
 }
 ```
 
-**Histórico do paciente logado:**
+**2. Histórico médico: todos os atendimentos de um paciente** (Médico, Enfermeiro ou Paciente)
 ```graphql
 query {
-    consultasPorPaciente {
-        id
-        dataHora
-        status
-    }
+  atendimentosPorPaciente(pacienteId: 1) {
+    id
+    medicoId
+    pacienteId
+    dataHora
+    status
+    observacoes
+  }
+}
+```
+- Médico/Enfermeiro podem passar qualquer `pacienteId`.
+- Paciente só pode consultar o próprio histórico (ex.: pacienteId 1 para o usuário "paciente").
+
+**3. Histórico médico: apenas as consultas futuras (agendadas) do paciente**
+```graphql
+query {
+  atendimentosFuturosPorPaciente(pacienteId: 1) {
+    id
+    medicoId
+    pacienteId
+    dataHora
+    status
+    observacoes
+  }
 }
 ```
 
-**Consultas futuras:**
-```graphql
-query {
-    consultasFuturas {
-        id
-        dataHora
-        status
-    }
+**Teste no Postman:** método POST, URL `http://localhost:8080/graphql`, aba Authorization → Basic Auth (medico/123 ou paciente/123), body raw JSON:
+```json
+{
+  "query": "query { atendimentosPorPaciente(pacienteId: 1) { id dataHora status } }"
 }
 ```
 

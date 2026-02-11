@@ -1,3 +1,4 @@
+# Atendimento/consulta do histórico médico
 type Consulta {
   id: ID
   medicoId: ID
@@ -9,7 +10,12 @@ type Consulta {
 }
 
 type Query {
+  # Lista todas as consultas (medico/enfermeiro)
   consultas: [Consulta]
-  consultasPorPaciente: [Consulta]
-  consultasFuturas: [Consulta]
+
+  # Histórico médico: todos os atendimentos de um paciente (pacienteId obrigatório)
+  atendimentosPorPaciente(pacienteId: ID!): [Consulta]
+
+  # Histórico médico: apenas as consultas futuras (agendadas) de um paciente
+  atendimentosFuturosPorPaciente(pacienteId: ID!): [Consulta]
 }

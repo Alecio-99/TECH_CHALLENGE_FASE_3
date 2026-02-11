@@ -1,0 +1,851 @@
+{
+  "info": {
+    "_postman_id": "c0bf2eba-4ab8-495d-a03c-e65ebcbc6a52",
+    "name": "Tech Challange Fase 3 - V2.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21848947"
+  },
+  "item": [
+    {
+      "name": "Consultas",
+      "item": [
+        {
+          "name": "Medico",
+          "item": [
+            {
+              "name": "Rest",
+              "item": [
+                {
+                  "name": "Criar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "medico",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"pacienteId\": 1,\r\n    \"medicoId\": 1,\r\n    \"enfermeiroId\": 2,\r\n    \"dataHora\": \"2026-02-15T10:00:00\",\r\n    \"observacoes\": \"Consulta de teste via Postman\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/consultas",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Atualizar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "medico",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/consultas/1?status=REALIZADA",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas",
+                        "1"
+                      ],
+                      "query": [
+                        {
+                          "key": "status",
+                          "value": "REALIZADA"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "GraphQL",
+              "item": [
+                {
+                  "name": "Visualizar Todas Consultas",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "medico",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultas { id medicoId pacienteId dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consulta por Paciente",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "medico",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasPorPaciente { id dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consultas Futuras",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "medico",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasFuturas { id dataHora status } }\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Enfermeiro",
+          "item": [
+            {
+              "name": "Rest",
+              "item": [
+                {
+                  "name": "Criar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "enfermeiro",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"pacienteId\": 1,\r\n    \"medicoId\": 1,\r\n    \"enfermeiroId\": 2,\r\n    \"dataHora\": \"2026-02-15T10:00:00\",\r\n    \"observacoes\": \"Consulta de teste via Postman\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/consultas",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Atualizar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "enfermeiro",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/consultas/1?status=REALIZADA",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas",
+                        "1"
+                      ],
+                      "query": [
+                        {
+                          "key": "status",
+                          "value": "REALIZADA"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "GraphQL",
+              "item": [
+                {
+                  "name": "Visualizar Todas Consultas",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "enfermeiro",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultas { id medicoId pacienteId dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consulta por Paciente",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "enfermeiro",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasPorPaciente { id dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consultas Futuras",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "enfermeiro",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasFuturas { id dataHora status } }\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Paciente",
+          "item": [
+            {
+              "name": "Rest",
+              "item": [
+                {
+                  "name": "Criar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "paciente",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"pacienteId\": 1,\r\n    \"medicoId\": 1,\r\n    \"enfermeiroId\": 2,\r\n    \"dataHora\": \"2026-02-15T10:00:00\",\r\n    \"observacoes\": \"Consulta de teste via Postman\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/consultas",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Atualizar Consulta",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "paciente",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "PUT",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8080/consultas/1?status=REALIZADA",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "consultas",
+                        "1"
+                      ],
+                      "query": [
+                        {
+                          "key": "status",
+                          "value": "REALIZADA"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "GraphQL",
+              "item": [
+                {
+                  "name": "Visualizar Todas Consultas",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "paciente",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultas { id medicoId pacienteId dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consulta por Paciente",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "paciente",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasPorPaciente { id dataHora status } }\"\r\n}\r\n",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Visualizar Consultas Futuras",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "paciente",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "123",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n  \"query\": \"query { consultasFuturas { id dataHora status } }\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "http://localhost:8080/graphql",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8080",
+                      "path": [
+                        "graphql"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Consultas flexíveis",
+          "item": [
+            {
+              "name": "AtentimentoPorPaciente",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "123",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "medico",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"query\": \"query { atendimentosPorPaciente(pacienteId: 1) { id medicoId pacienteId dataHora status observacoes } }\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Atendimento Futuros Por Paciente",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "123",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "medico",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"query\": \"query { atendimentosFuturosPorPaciente(pacienteId: 1) { id dataHora status } }\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Consulta status medico",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "123",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "medico",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "\r\n{  \"query\": \"query { consultas { id pacienteId dataHora status } }\"}\r\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://localhost:8080/graphql",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8080",
+                  "path": [
+                    "graphql"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
