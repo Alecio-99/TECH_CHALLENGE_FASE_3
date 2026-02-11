@@ -28,10 +28,19 @@ public class ConsultaGraphQLController {
         return service.listarTodas();
     }
 
-    /**
-     * Histórico médico: todos os atendimentos de um paciente.
-     * Médico/Enfermeiro podem consultar qualquer paciente; Paciente apenas o próprio.
-     */
+    @QueryMapping
+    @PreAuthorize("hasRole('PACIENTE')")
+    public List<Consulta> consultasPorPaciente(Authentication auth) {
+        return service.listarPorPaciente(1L);
+    }
+
+    @QueryMapping
+    @PreAuthorize("hasRole('PACIENTE')")
+    public List<Consulta> consultasFuturas(Authentication auth) {
+        return service.listarFuturas(1L);
+
+    }
+
     @QueryMapping
     @PreAuthorize("hasAnyRole('MEDICO','ENFERMEIRO','PACIENTE')")
     public List<Consulta> atendimentosPorPaciente(
@@ -41,9 +50,6 @@ public class ConsultaGraphQLController {
         return id != null ? service.listarPorPaciente(id) : Collections.emptyList();
     }
 
-    /**
-     * Histórico médico: apenas as consultas futuras (agendadas) de um paciente.
-     */
     @QueryMapping
     @PreAuthorize("hasAnyRole('MEDICO','ENFERMEIRO','PACIENTE')")
     public List<Consulta> atendimentosFuturosPorPaciente(
