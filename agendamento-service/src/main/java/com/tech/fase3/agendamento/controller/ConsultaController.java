@@ -25,7 +25,7 @@ public class ConsultaController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('MEDICO')")
+    @PreAuthorize("hasAnyRole('MEDICO','ENFERMEIRO')")
     public ResponseEntity<Void> editar(
             @PathVariable Long id,
             @RequestParam StatusConsulta status
